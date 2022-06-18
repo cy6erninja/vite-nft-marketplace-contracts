@@ -2,9 +2,37 @@
 
 pragma soliditypp >=0.8.0;
 
+import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
 contract EnglishAuction {
-    
-    
 
+    struct Bid {
+        address bidder;
+        uint amount;
+    }
 
+    struct Auction {
+        address creator;
+        uint startPrice;
+        uint lastBlock;
+        Bid highestBid;
+        ERC721 subject;
+    }
+
+    Auction[] auctions;
+
+    event Start();
+    event Bid();
+    event Terminate();
+
+    function start(ERC721 _token) public {
+    }
+
+    function bid() public {
+
+    }
+
+    function terminate() public {
+
+    }
 }
