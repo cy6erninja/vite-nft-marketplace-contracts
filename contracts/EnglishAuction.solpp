@@ -19,20 +19,20 @@ contract EnglishAuction {
         ERC721 subject;
     }
 
-    Auction[] auctions;
+    public Auction[] auctions;
 
     event Start();
     event Bid();
     event Terminate();
 
-    function start(ERC721 _token) public {
+    function start(ERC721 _token, uint _startPrice, uint lastBlock) public {
     }
 
-    function bid() public {
+    function bid(uint _auctionId, uint amount) public payable {
 
     }
 
-    function terminate() public {
+    function terminate(uint _auctionId) public {
 
     }
 }
