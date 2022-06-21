@@ -17,22 +17,42 @@ contract EnglishAuction {
         uint lastBlock;
         Bid highestBid;
         ERC721 subject;
+        uint256 subjectTokenId;
     }
 
-    public Auction[] auctions;
+    uint internal auctionCounter = 0;
 
-    event Start();
-    event Bid();
-    event Terminate();
+    mapping(uint => Auction) public auctions;
 
-    function start(ERC721 _token, uint _startPrice, uint lastBlock) public {
+    event Start(ERC721 token, uint256 tokenId, uint startPrice, uint lastBlock);
+    event Bid(uint auctionId, uint _amount);
+    event Terminate(uint auctionId);
+
+    function start(ERC721 _token, uint256 _tokenId, uint _startPrice, uint _lastBlock) public {
+        Auction memory auction = Auction({
+            creator: msg.sender,
+            startPrice: _startPrice,
+            lastBlock: _lastBlock,
+            highestBid: Bid({
+                bidder: msg.sender,
+                amount: 0
+            }),
+            subject: _token,
+            subjectTokenId: _subjectTokenId 
+        });
+
+        auctions[auctionCounter++] = auction;
+        auction.subject.transferFrom(msg.sender, address(this), _subjectTokenId);
+
+        emit Start(_token, _tokenId, _startPrice, _lastBlock);
     }
 
-    function bid(uint _auctionId, uint amount) public payable {
-
+    function bid(uint _auctionId, uint _amount) public payable {
+        
+        emit Bid(_auctionId, _amount);
     }
 
     function terminate(uint _auctionId) public {
-
+        emit Terminate(_auctionId);
     }
 }
